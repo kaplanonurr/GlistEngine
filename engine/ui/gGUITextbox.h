@@ -40,6 +40,7 @@
 
 #include "gGUIControl.h"
 #include <stack>
+#include "gGUIManager.h"
 
 
 class gGUITextbox: public gGUIControl {
@@ -203,6 +204,18 @@ public:
 	void setFirstX(int firstx);
 	void setFirstY(int firsty);
 
+	int getInitX();
+
+	void setTextFont(gFont* textFont);
+
+	void setTextAlignment(int textAlignment, float cellW, int initX);
+	float getTextMoveAmount();
+
+	void setTextColor(gColor* textColor);
+
+	int getCursorPosX();
+	void setCursorPosX(int cursorPosX, int length);
+
 private:
 	static const int KEY_NONE = 0, KEY_BACKSPACE = 1, KEY_LEFT = 2, KEY_RIGHT = 4, KEY_DELETE = 8, KEY_ENTER = 16, KEY_UP = 32, KEY_DOWN = 64;
 
@@ -251,6 +264,7 @@ private:
 	int linecount;
 	int lineheight;
 	bool ismultiline;
+	bool linecountexceeded;
 	int currentline;
 	int linetopmargin;
 	int hdiff;
@@ -263,6 +277,16 @@ private:
 	bool isbackgroundenabled;
 	int totalh;
 	int firstx, firsty;
+	bool widthchanged;
+	bool arrowkeypressed;
+	int arrowamount;
+	gFont* textfont;
+	gGUIManager* manager;
+	int textalignment;
+	int textalignmentamount;
+	float cursormoveamount;
+	float textmoveamount;
+	gColor* textcolor;
 
 	//undo stacks
 	std::stack<std::string> undostack;
