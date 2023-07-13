@@ -103,7 +103,6 @@ set(SRC_FILES
 	${ENGINE_DIR}/core/gRenderer.cpp
 	${ENGINE_DIR}/core/gRenderObject.cpp
 	${ENGINE_DIR}/core/gGUIActionManager.cpp
-	${ENGINE_DIR}/graphics/gAllocatableBase.cpp
 	${ENGINE_DIR}/graphics/gTexture.cpp
 	${ENGINE_DIR}/graphics/gImage.cpp
 	${ENGINE_DIR}/graphics/gSkybox.cpp
@@ -201,6 +200,7 @@ set(SRC_FILES
 	${ENGINE_DIR}/graphics/posteffects/gSepiatone.cpp
 	${ENGINE_DIR}/graphics/posteffects/gGrain.cpp
 	${ENGINE_DIR}/graphics/posteffects/gDynamicGrain.cpp
+	${ENGINE_DIR}/graphics/posteffects/gColorAdjustments.cpp
 	${ENGINE_DIR}/graphics/posteffects/gKernelEffect.cpp
 	${ENGINE_DIR}/graphics/posteffects/kerneleffects/gBlur.cpp
 	${ENGINE_DIR}/graphics/posteffects/kerneleffects/gSharpen.cpp
