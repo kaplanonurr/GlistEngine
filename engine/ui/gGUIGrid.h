@@ -27,6 +27,7 @@ public:
 	    int cellrowno;
 	    int cellcolumnno;
 	    bool iscellselected;
+	    bool iscellaligned;
 	    std::string cellcontent;
 	    std::string showncontent;
 	    std::string celltype;
@@ -34,18 +35,24 @@ public:
 	    int cellalignment;
 	    float textmoveamount;
 	    gColor cellfontcolor;
+	    int copiedno;
+	    bool hasfunction;
 	    Cell(){
 	    	cellx = -1;
 	    	celly = -1;
 	    	cellh = 30.0f;
 	    	cellw = 80.0f;
 	    	iscellselected = false;
+	    	iscellaligned = false;
 	    	cellcontent = "";
 	    	showncontent = "";
+	    	celltype = "string";
 	    	fontnum = gGUIManager::FONT_REGULAR;
 	    	cellalignment = gBaseGUIObject::TEXTALIGNMENT_LEFT;
 	    	textmoveamount = 0;
 	    	cellfontcolor = fontcolor;
+	    	copiedno = -1;
+	    	hasfunction = false;
 	    }
 	};
 	gGUIGrid();
@@ -78,8 +85,10 @@ public:
 	void changeCell();
 	void checkCellType(int cellIndex);
 	void changeCellFont(int fontNum);
-	void changeCellAlignment(int cellAlignment);
+	void changeCellAlignment(int cellAlignment, bool clicked);
 	void changeCellFontColor(gColor* fontColor);
+	void pushToUndoStack();
+	void pushToRedoStack();
 
 	void update();
 
@@ -92,6 +101,14 @@ public:
 	void mouseScrolled(int x, int y);
 
 private:
+	std::string fixTextFunction(std::string text);
+	bool isNumeric(std::string text);
+	std::string fixNumeric(std::string text);
+	std::string getTextColumn(std::string text);
+	int getCellIndex(std::string text);
+	Cell getCopiedCell(int cellIndex);
+	int makeSum(int c1, int r1, int c2, int r2);
+
 	std::deque<Cell> allcells;
 	int rownum, columnnum;
 	float gridx, gridy, gridw, gridh;
@@ -107,6 +124,22 @@ private:
 	int newgridboxw;
 	gGUIManager* manager;
 	int selectedtitle;
+	bool shiftpressed, ctrlpressed;
+	bool ctrlcpressed, ctrlvpressed, ctrlzpressed, ctrlypressed;
+	int copiedfont, copiedalignment, copiedno;
+	gColor copiedfontcolor;
+	std::stack<std::string> undostringstack;
+	std::stack<int> undofontstack;
+	std::stack<int> undoalignmentstack;
+	std::stack<gColor> undofontcolorstack;
+	std::stack<int> undocopiednostack;
+	std::stack<int> undocellnumberstack;
+	std::stack<std::string> redostringstack;
+	std::stack<int> redofontstack;
+	std::stack<int> redoalignmentstack;
+	std::stack<gColor> redofontcolorstack;
+	std::stack<int> redocopiednostack;
+	std::stack<int> redocellnumberstack;
 };
 
 #endif /* UI_GGUIGRID_H_ */

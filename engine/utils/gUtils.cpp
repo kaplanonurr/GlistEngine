@@ -151,6 +151,26 @@ int gGetSeconds() {
 	return std::localtime(&curr)->tm_sec;
 }
 
+#ifdef WIN32
+#include <windows.h>
+
+uint64_t gGetAvailableRamSize() {
+    MEMORYSTATUSEX memStatus;
+    memStatus.dwLength = sizeof(MEMORYSTATUSEX);
+    GlobalMemoryStatusEx(&memStatus);
+    return memStatus.ullAvailPhys;
+}
+
+#elif LINUX
+#include <sys/sysinfo.h>
+
+uint64_t gGetAvailableRamSize() {
+    struct sysinfo sysInfo;
+    sysinfo(&sysInfo);
+    return sysInfo.freeram * sysInfo.mem_unit;
+}
+#endif
+
 std::string gGetTimestampString() {
 	return gGetTimestampString("%Y-%m-%d-%H-%M-%S-%i");
 }
@@ -572,6 +592,11 @@ gColor gShowColorChooser(
 		selectedcolor.set(result[0] / 255, result[1] / 255, result[2] / 255);
 	}
 	return selectedcolor;
+}
+
+bool checkCollision(int xLeft1, int yUp1, int xRight1, int yBottom1,
+		int xLeft2, int yUp2, int xRight2, int yBottom2) {
+	return xLeft1 < xRight2 && xRight1 > xLeft2 && yBottom1 > yUp2 && yUp1 < yBottom2;
 }
 
 gUtils::gUtils() {
